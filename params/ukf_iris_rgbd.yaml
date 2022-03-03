@@ -1,3 +1,7 @@
+
+# when reading this configuration please refer to the original template to get important informations,
+# DO SO!
+#
 frequency: 30
 
 sensor_timeout: 0.1
@@ -16,23 +20,25 @@ publish_tf: true
 publish_acceleration: false
 permit_corrected_publication: false
 
-map_frame: map              # Defaults to "map" if unspecified
-odom_frame: odom            # Defaults to "odom" if unspecified
-base_link_frame: base_link  # Defaults to "base_link" if unspecified
-world_frame: odom           # Defaults to the value of odom_frame if unspecified
+map_frame: map
+odom_frame: odom
+base_link_frame: base_link
+world_frame: odom
 
-pose0: run_localization/camera_pose
-pose0_config: [true,  true,  true,
+################################################################################
+odom0: run_localization/camera_pose
+odom0_config: [true,  true,  true,
                true,  true,  true,
                false, false, false,
                false, false, false,
                false, false, false]
-pose0_differential: true
-pose0_relative: false
-pose0_queue_size: 5
-pose0_rejection_threshold: 2  # Note the difference in parameter name
-pose0_nodelay: false
+odom0_queue_size: 2
+odom0_nodelay: false
+odom0_differential: false
+# this option is crucial, read about it.
+odom0_relative: false
 
+################################################################################
 # The order of the values in the configuration matrix below is 
 #  x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az.
 # changed to the one providedby mavros
@@ -46,12 +52,11 @@ imu0_nodelay: false
 imu0_differential: false
 imu0_relative: true
 imu0_queue_size: 5
-imu0_pose_rejection_threshold: 0.8                 # Note the difference in parameter names
-imu0_twist_rejection_threshold: 0.8                #
-imu0_linear_acceleration_rejection_threshold: 0.8  #
+imu0_pose_rejection_threshold: 0.8
+imu0_twist_rejection_threshold: 0.8
+imu0_linear_acceleration_rejection_threshold: 0.8
 
 imu0_remove_gravitational_acceleration: true
-
 
 
 use_control: true
@@ -60,7 +65,9 @@ stamped_control: false
 control_timeout: 0.2
 control_config: [true, false, false, false, false, true]
 
-acceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 3.4]
+# this is a drone, lateral acceleration is possible, so the values have to be
+# changed with respect to the original example
+acceleration_limits: [1.3, 0.0, 0.0, 0.0, 2.0, 3.4]
 deceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 4.5]
 
 acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
